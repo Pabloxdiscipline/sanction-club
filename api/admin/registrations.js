@@ -1,0 +1,73 @@
+import { withClient } from "../_db.js";
+import { isAdminAuthorized } from "../_auth.js";
+
+const EVENT_SLUG = "sanction-club-paris-001";
+const ALLOWED_STATUTS = ["CONFIRME", "WAITLIST", "ANNULE", "PRESENT"];
+
+export default async function handler(req, res) {
+  if (!isAdminAuthorized(req)) {
+    return res.status(401).json({ error: "Non autorise." });
+  }
+
+  if (req.method === "GET") {
+    const type = req.query.type === "interesse" ? "interesse" : "participant";
+    const q = String(req.query.q || "").trim().toLowerCase();
+
+    try {
+      const data = await withClient(async (client) => {
+        const eventResult = await client.query("SELECT id FROM events WHERE slug = $1", [EVENT_SLUG]);
+        const event = eventResult.rows[0];
+        if (!event) return null;
+
+        const statsResult = await client.query(
+          `SELECT
+             COUNT(*)::int AS total,
+             COUNT(*) FILTER (WHERE statut = 'CONFIRME')::int AS confirmed,
+             COUNT(*) FILTER (WHERE statut = 'WAITLIST')::int AS waitlist
+           FROM registrations WHERE event_id = $1 AND type = 'participant'`,
+          [event.id]
+        );
+
+        const params = [event.id, type];
+        let query = `SELECT id, prenom, instagram, email, statut, type, created_at
+                      FROM registrations WHERE event_id = $1 AND type = $2`;
+        if (q) {
+          params.push(`%${q}%`);
+          query += ` AND (LOWER(prenom) LIKE $3 OR LOWER(instagram) LIKE $3 OR LOWER(email) LIKE $3)`;
+        }
+        query += " ORDER BY created_at DESC";
+
+        const rowsResult = await client.query(query, params);
+        return { stats: statsResult.rows[0], registrations: rowsResult.rows };
+      });
+
+      if (!data) return res.status(404).json({ error: "Evenement introuvable." });
+      return res.status(200).json(data);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Erreur serveur." });
+    }
+  }
+
+  if (req.method === "PATCH") {
+    const { id, statut } = req.body || {};
+    if (!id || !ALLOWED_STATUTS.includes(statut)) {
+      return res.status(400).json({ error: "Requete invalide." });
+    }
+    try {
+      const result = await withClient((client) =>
+        client.query("UPDATE registrations SET statut = $1 WHERE id = $2 RETURNING id", [statut, id])
+      );
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Inscription introuvable." });
+      }
+      return res.status(200).json({ ok: true });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Erreur serveur." });
+    }
+  }
+
+  res.setHeader("Allow", "GET, PATCH");
+  return res.status(405).json({ error: "Methode non autorisee." });
+}

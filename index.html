@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sanction Club Paris, physique et mental</title>
+  <meta name="description" content="Sanction Club : run, sanction, talk. Une session running et discipline signee PabloXDiscipline a Paris. Gratuit, places limitees.">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <p class="topbar-tag">PabloXDiscipline presente</p>
+  </header>
+
+  <section class="hero">
+    <h1 class="hero-title">SANCTION CLUB</h1>
+    <p class="hero-sub">PHYSIQUE &times; MENTAL</p>
+    <p class="hero-city">PARIS</p>
+    <p class="hero-format">RUN &bull; SANCTION &bull; TALK</p>
+    <div class="hero-badges">
+      <span class="badge">GRATUIT</span>
+      <span class="badge badge--red">PLACES LIMITEES</span>
+    </div>
+    <a href="#inscription" class="cta">REJOINDRE LA SANCTION</a>
+  </section>
+
+  <section id="inscription" class="form-section">
+    <p class="gauge" id="gauge" hidden></p>
+    <h2 class="form-heading" id="form-heading">REJOINS LA SESSION</h2>
+    <p class="form-subheading" id="form-subheading" hidden></p>
+
+    <form id="registration-form" novalidate>
+      <label>Prenom
+        <input type="text" name="prenom" required autocomplete="given-name">
+      </label>
+      <label>@ Instagram
+        <input type="text" name="instagram" required autocomplete="off" placeholder="tonpseudo">
+      </label>
+      <label>Email
+        <input type="email" name="email" required autocomplete="email">
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" name="participate" required>
+        Je souhaite participer a cette session du Sanction Club.
+      </label>
+      <button type="submit" id="submit-btn">CONFIRMER MA PARTICIPATION</button>
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+    </form>
+
+    <p class="privacy-note">
+      Ces informations servent uniquement a organiser cette session du Sanction Club
+      et a te contacter a ce sujet. Aucune inscription automatique a une newsletter.
+    </p>
+
+    <details class="interesse-block">
+      <summary>Pas dispo cette fois ? Rejoins la liste des interesses pour la suite.</summary>
+      <form id="interesse-form" novalidate>
+        <label>Prenom
+          <input type="text" name="prenom" required autocomplete="given-name">
+        </label>
+        <label>@ Instagram
+          <input type="text" name="instagram" required autocomplete="off" placeholder="tonpseudo">
+        </label>
+        <label>Email
+          <input type="email" name="email" required autocomplete="email">
+        </label>
+        <button type="submit">ETRE TENU AU COURANT</button>
+        <p class="form-error" id="interesse-error" role="alert" hidden></p>
+      </form>
+    </details>
+  </section>
+
+  <section id="result" class="result-section" hidden></section>
+
+  <footer class="footer">
+    Sanction Club &middot; PabloXDiscipline
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

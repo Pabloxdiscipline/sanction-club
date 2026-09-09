@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sanction Club, admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body class="admin-body">
+
+  <section id="gate" class="admin-gate">
+    <h1 class="admin-title">SANCTION CLUB</h1>
+    <p class="admin-subtitle">Espace admin</p>
+    <form id="gate-form">
+      <label>Mot de passe
+        <input type="password" name="password" required autocomplete="current-password">
+      </label>
+      <button type="submit">SE CONNECTER</button>
+      <p class="form-error" id="gate-error" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <section id="dashboard" class="admin-dashboard" hidden>
+    <header class="admin-header">
+      <h1 class="admin-title">SANCTION CLUB</h1>
+      <button type="button" id="export-btn" class="admin-btn admin-btn--ghost">EXPORTER CSV</button>
+    </header>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <p class="stat-value" id="stat-total">0</p>
+        <p class="stat-label">Inscriptions</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-value" id="stat-confirmed">0</p>
+        <p class="stat-label">Confirmes</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-value" id="stat-waitlist">0</p>
+        <p class="stat-label">Liste d'attente</p>
+      </div>
+    </div>
+
+    <div class="admin-toolbar">
+      <input type="search" id="search-input" placeholder="Rechercher par prenom, instagram ou email">
+    </div>
+
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Prenom</th>
+            <th>Instagram</th>
+            <th>Email</th>
+            <th>Date</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody id="registrations-body"></tbody>
+      </table>
+    </div>
+
+    <h2 class="admin-section-title">Interesses Sanction Club</h2>
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Prenom</th>
+            <th>Instagram</th>
+            <th>Email</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="interesses-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
