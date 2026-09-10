@@ -81,8 +81,11 @@
       instagram: formData.get("instagram"),
       email: formData.get("email"),
       telephone: formData.get("telephone"),
-      participate: formData.get("participate") === "on",
-      consentementImage: formData.get("consentement_image") === "on",
+      // Plus de checkboxes dans le formulaire : soumettre vaut confirmation
+      // de participation. Le consentement image reste a sa valeur par
+      // defaut (false) en base, personne ne peut plus le cocher.
+      participate: true,
+      consentementImage: false,
     };
 
     submitBtn.disabled = true;
