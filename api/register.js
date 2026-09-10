@@ -17,6 +17,7 @@ export default async function handler(req, res) {
   const instagram = normalizeInstagram(body.instagram);
   const telephone = normalizeTelephone(body.telephone);
   const participate = body.participate === true;
+  const consentementImage = body.consentementImage === true;
 
   if (!prenom || !nom || !email) {
     return res.status(400).json({ error: "Prenom, nom et email sont obligatoires." });
@@ -30,6 +31,9 @@ export default async function handler(req, res) {
     }
     if (!participate) {
       return res.status(400).json({ error: "Merci de confirmer ta participation pour valider l'inscription." });
+    }
+    if (!consentementImage) {
+      return res.status(400).json({ error: "Le consentement image est requis pour valider l'inscription." });
     }
   }
 
@@ -73,9 +77,9 @@ export default async function handler(req, res) {
         }
 
         await client.query(
-          `INSERT INTO registrations (event_id, prenom, nom, instagram, telephone, email, statut, type)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-          [event.id, prenom, nom, instagramValue, telephoneValue, email, statut, type]
+          `INSERT INTO registrations (event_id, prenom, nom, instagram, telephone, email, consentement_image, statut, type)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+          [event.id, prenom, nom, instagramValue, telephoneValue, email, consentementImage, statut, type]
         );
 
         await client.query("COMMIT");

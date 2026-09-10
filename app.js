@@ -1,7 +1,6 @@
 (function () {
   "use strict";
 
-  var gaugeEl = document.getElementById("gauge");
   var headingEl = document.getElementById("form-heading");
   var subheadingEl = document.getElementById("form-subheading");
   var submitBtn = document.getElementById("submit-btn");
@@ -9,6 +8,12 @@
   var resultSection = document.getElementById("result");
   var registrationForm = document.getElementById("registration-form");
   var formError = document.getElementById("form-error");
+  var step1 = document.getElementById("step-1");
+  var step2 = document.getElementById("step-2");
+  var step1Error = document.getElementById("step1-error");
+  var stepIndicator = document.getElementById("step-indicator");
+  var nextBtn = document.getElementById("next-btn");
+  var backBtn = document.getElementById("back-btn");
 
   function setHeadingState(full) {
     if (full) {
@@ -24,19 +29,17 @@
   }
 
   function loadStatus() {
+    // La jauge n'est plus affichee publiquement : cet appel sert uniquement
+    // a determiner si le formulaire doit basculer en mode liste d'attente.
     fetch("/api/status")
       .then(function (res) {
         if (!res.ok) throw new Error("status_failed");
         return res.json();
       })
       .then(function (data) {
-        gaugeEl.innerHTML = "<strong>" + data.confirmed + "</strong> / " + data.max + " places confirmees";
-        gaugeEl.hidden = false;
         setHeadingState(Boolean(data.full));
       })
       .catch(function () {
-        // Si le statut est indisponible, on laisse le formulaire de confirmation
-        // classique : le serveur reste seul juge de CONFIRME vs WAITLIST a l'envoi.
         setHeadingState(false);
       });
   }
@@ -49,6 +52,28 @@
   function hideError(el) {
     el.hidden = true;
   }
+
+  function goToStep2() {
+    var inputs = step1.querySelectorAll("input[required]");
+    var valid = true;
+    inputs.forEach(function (input) {
+      if (!input.reportValidity()) valid = false;
+    });
+    if (!valid) return;
+    hideError(step1Error);
+    step1.hidden = true;
+    step2.hidden = false;
+    stepIndicator.textContent = "ETAPE 2 / 2";
+  }
+
+  function goToStep1() {
+    step2.hidden = true;
+    step1.hidden = false;
+    stepIndicator.textContent = "ETAPE 1 / 2";
+  }
+
+  nextBtn.addEventListener("click", goToStep2);
+  backBtn.addEventListener("click", goToStep1);
 
   function renderResult(status, whatsappLink) {
     formSection.hidden = true;
@@ -76,6 +101,13 @@
     event.preventDefault();
     hideError(formError);
 
+    var step2Inputs = step2.querySelectorAll("input[required]");
+    var valid = true;
+    step2Inputs.forEach(function (input) {
+      if (!input.reportValidity()) valid = false;
+    });
+    if (!valid) return;
+
     var formData = new FormData(registrationForm);
     var payload = {
       type: "participant",
@@ -85,6 +117,7 @@
       email: formData.get("email"),
       telephone: formData.get("telephone"),
       participate: formData.get("participate") === "on",
+      consentementImage: formData.get("consentement_image") === "on",
     };
 
     submitBtn.disabled = true;

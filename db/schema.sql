@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS events (
   nom TEXT NOT NULL,
   ville TEXT NOT NULL,
   date TIMESTAMPTZ,
-  max_participants INTEGER NOT NULL DEFAULT 30,
+  max_participants INTEGER NOT NULL DEFAULT 40,
   whatsapp_link TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -19,6 +19,9 @@ CREATE TABLE IF NOT EXISTS registrations (
   instagram TEXT,
   telephone TEXT,
   email TEXT NOT NULL,
+  -- Obligatoire en application pour type = 'participant' uniquement (voir
+  -- api/register.js) ; false par defaut pour les inscriptions 'interesse'.
+  consentement_image BOOLEAN NOT NULL DEFAULT false,
   statut TEXT NOT NULL DEFAULT 'CONFIRME' CHECK (statut IN ('CONFIRME', 'WAITLIST', 'ANNULE', 'PRESENT')),
   type TEXT NOT NULL DEFAULT 'participant' CHECK (type IN ('participant', 'interesse')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),

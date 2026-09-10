@@ -26,7 +26,7 @@ export default async function handler(req, res) {
       const event = eventResult.rows[0];
       if (!event) return null;
       const result = await client.query(
-        `SELECT prenom, nom, instagram, telephone, email, statut, type, created_at
+        `SELECT prenom, nom, instagram, telephone, email, consentement_image, statut, type, created_at
          FROM registrations WHERE event_id = $1 ORDER BY created_at ASC`,
         [event.id]
       );
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
     if (!rows) return res.status(404).json({ error: "Evenement introuvable." });
 
-    const header = ["Prenom", "Nom", "Instagram", "Telephone", "Email", "Statut", "Type", "Date inscription"];
+    const header = ["Prenom", "Nom", "Instagram", "Telephone", "Email", "Consentement image", "Statut", "Type", "Date inscription"];
     const lines = [header.join(",")];
     for (const row of rows) {
       lines.push(
@@ -45,6 +45,7 @@ export default async function handler(req, res) {
           csvEscape(row.instagram),
           csvEscape(row.telephone),
           csvEscape(row.email),
+          csvEscape(row.consentement_image ? "Oui" : "Non"),
           csvEscape(row.statut),
           csvEscape(row.type),
           csvEscape(new Date(row.created_at).toISOString()),

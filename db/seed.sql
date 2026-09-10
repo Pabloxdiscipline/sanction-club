@@ -1,5 +1,5 @@
 INSERT INTO events (slug, nom, ville, max_participants)
-VALUES ('sanction-club-paris-001', 'Sanction Club Paris #001', 'Paris', 30)
+VALUES ('sanction-club-paris-001', 'Sanction Club Paris #001', 'Paris', 40)
 ON CONFLICT (slug) DO NOTHING;
 
 -- Une fois le lieu, l'heure et le groupe WhatsApp confirmes, mets a jour la ligne :

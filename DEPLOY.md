@@ -88,6 +88,17 @@ ALTER TABLE registrations ALTER COLUMN instagram DROP NOT NULL;
 Si la base n'a encore jamais été migrée (premier déploiement), inutile de faire les deux :
 `db/schema.sql` (à jour) crée directement la table avec les bonnes colonnes, l'étape 5 suffit.
 
+## 7ter. Mise à jour de schéma (jauge 40 places, consentement image)
+
+Idem, si la base existe déjà, exécute `db/migrations/003_gauge40_consentement_image.sql` :
+
+```sql
+ALTER TABLE registrations
+  ADD COLUMN IF NOT EXISTS consentement_image BOOLEAN NOT NULL DEFAULT false;
+
+UPDATE events SET max_participants = 40 WHERE slug = 'sanction-club-paris-001';
+```
+
 ## 8. Vérification post-déploiement
 
 - Une inscription passe en `CONFIRME` tant que la jauge n'est pas pleine.
@@ -97,6 +108,9 @@ Si la base n'a encore jamais été migrée (premier déploiement), inutile de fa
 - `/admin` affiche les bons compteurs, permet de changer un statut et d'exporter en CSV.
 - `/interesse` enregistre bien en `type = 'interesse'` (visible uniquement dans la section
   Intéressés de l'admin, absent de la jauge et du tableau principal).
+- Le formulaire principal ne se soumet qu'en 2 étapes (Suivant / Retour), la jauge n'est
+  plus affichée publiquement, et le consentement image est obligatoire pour valider
+  une participation (colonne visible dans l'export CSV).
 
 Pour tester rapidement l'effet de jauge sans attendre 30 vraies inscriptions, baisse
 temporairement `max_participants` via une requête SQL dans le dashboard Postgres.

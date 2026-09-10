@@ -214,17 +214,33 @@ img {
   padding: 48px 24px 64px;
 }
 
-.gauge {
+.step-indicator {
   text-align: center;
-  font-size: 12px;
-  letter-spacing: 0.14em;
+  font-size: 11px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gris);
-  margin: 0 0 18px;
+  color: var(--chrome);
+  margin: 0 0 20px;
 }
 
-.gauge strong {
-  color: var(--blanc);
+.form-step {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.btn-back {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--gris);
+  padding: 14px;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 .form-heading {
@@ -314,7 +330,8 @@ input[type="checkbox"] {
   flex-shrink: 0;
 }
 
-button[type="submit"] {
+button[type="submit"],
+#next-btn {
   margin-top: 6px;
   padding: 16px;
   background: var(--rouge);
