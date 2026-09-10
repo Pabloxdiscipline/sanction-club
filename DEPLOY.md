@@ -108,9 +108,10 @@ UPDATE events SET max_participants = 40 WHERE slug = 'sanction-club-paris-001';
 - `/admin` affiche les bons compteurs, permet de changer un statut et d'exporter en CSV.
 - `/interesse` enregistre bien en `type = 'interesse'` (visible uniquement dans la section
   Intéressés de l'admin, absent de la jauge et du tableau principal).
-- Le formulaire principal ne se soumet qu'en 2 étapes (Suivant / Retour), la jauge n'est
-  plus affichée publiquement, et le consentement image (optionnel, case décochée par
-  défaut) n'empêche pas la confirmation de participation (colonne visible dans l'export CSV).
+- Le formulaire principal tient sur une seule page (bouton "REJOINS LA SANCTION"), la
+  jauge n'est plus affichée publiquement, et le consentement image (optionnel, case
+  décochée par défaut) n'empêche pas la confirmation de participation (colonne visible
+  dans l'export CSV).
 
 Pour tester rapidement l'effet de jauge sans attendre 30 vraies inscriptions, baisse
 temporairement `max_participants` via une requête SQL dans le dashboard Postgres.

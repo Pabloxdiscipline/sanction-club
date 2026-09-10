@@ -29,46 +29,37 @@
     <h2 class="form-heading" id="form-heading">REJOINS LA SESSION</h2>
     <p class="form-subheading" id="form-subheading" hidden></p>
 
-    <form id="registration-form" novalidate>
-      <p class="step-indicator" id="step-indicator">ETAPE 1 / 2</p>
+    <form id="registration-form">
+      <label>Prenom
+        <input type="text" name="prenom" required autocomplete="given-name">
+      </label>
+      <label>Nom
+        <input type="text" name="nom" required autocomplete="family-name">
+      </label>
+      <label>@ Instagram
+        <input type="text" name="instagram" required autocomplete="off" placeholder="tonpseudo">
+      </label>
+      <label>Email
+        <input type="email" name="email" required autocomplete="email">
+      </label>
+      <label>Telephone
+        <input type="tel" name="telephone" required autocomplete="tel">
+      </label>
+      <p class="field-help">Ton numero nous sert uniquement a t'ajouter au groupe WhatsApp du Sanction Club.</p>
 
-      <div class="form-step" id="step-1">
-        <label>Prenom
-          <input type="text" name="prenom" required autocomplete="given-name">
-        </label>
-        <label>Nom
-          <input type="text" name="nom" required autocomplete="family-name">
-        </label>
-        <label>@ Instagram
-          <input type="text" name="instagram" required autocomplete="off" placeholder="tonpseudo">
-        </label>
-        <label>Email
-          <input type="email" name="email" required autocomplete="email">
-        </label>
-        <button type="button" id="next-btn">SUIVANT</button>
-        <p class="form-error" id="step1-error" role="alert" hidden></p>
-      </div>
+      <label class="checkbox">
+        <input type="checkbox" name="participate" required>
+        Je souhaite participer a cette session du Sanction Club.
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" name="consentement_image">
+        J'autorise PabloXDiscipline a utiliser les photos et videos prises pendant cette
+        session a des fins de communication (Instagram, site).
+      </label>
 
-      <div class="form-step" id="step-2" hidden>
-        <label>Telephone
-          <input type="tel" name="telephone" required autocomplete="tel">
-        </label>
-        <p class="field-help">Ton numero nous sert uniquement a t'ajouter au groupe WhatsApp du Sanction Club.</p>
-
-        <label class="checkbox">
-          <input type="checkbox" name="participate" required>
-          Je souhaite participer a cette session du Sanction Club.
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" name="consentement_image">
-          J'autorise PabloXDiscipline a utiliser les photos et videos prises pendant cette
-          session a des fins de communication (Instagram, site).
-        </label>
-
-        <button type="submit" id="submit-btn">CONFIRMER MA PARTICIPATION</button>
-        <button type="button" id="back-btn" class="btn-back">RETOUR</button>
-        <p class="form-error" id="form-error" role="alert" hidden></p>
-      </div>
+      <button type="submit" id="submit-btn">REJOINS LA SANCTION</button>
+      <p class="step-indicator">ETAPE 1 / 2</p>
+      <p class="form-error" id="form-error" role="alert" hidden></p>
     </form>
 
     <p class="privacy-note">

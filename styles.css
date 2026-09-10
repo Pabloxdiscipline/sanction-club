@@ -220,27 +220,7 @@ img {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--chrome);
-  margin: 0 0 20px;
-}
-
-.form-step {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.btn-back {
-  background: transparent;
-  border: 1px solid var(--border-strong);
-  color: var(--gris);
-  padding: 14px;
-  border-radius: 4px;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
+  margin: 4px 0 0;
 }
 
 .form-heading {
@@ -330,8 +310,7 @@ input[type="checkbox"] {
   flex-shrink: 0;
 }
 
-button[type="submit"],
-#next-btn {
+button[type="submit"] {
   margin-top: 6px;
   padding: 16px;
   background: var(--rouge);

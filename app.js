@@ -8,23 +8,17 @@
   var resultSection = document.getElementById("result");
   var registrationForm = document.getElementById("registration-form");
   var formError = document.getElementById("form-error");
-  var step1 = document.getElementById("step-1");
-  var step2 = document.getElementById("step-2");
-  var step1Error = document.getElementById("step1-error");
-  var stepIndicator = document.getElementById("step-indicator");
-  var nextBtn = document.getElementById("next-btn");
-  var backBtn = document.getElementById("back-btn");
 
   function setHeadingState(full) {
     if (full) {
       headingEl.textContent = "SESSION COMPLETE";
       subheadingEl.textContent = "Les places sont prises, mais tu peux rejoindre la liste d'attente.";
       subheadingEl.hidden = false;
-      submitBtn.textContent = "REJOINDRE LA LISTE D'ATTENTE";
+      submitBtn.textContent = "REJOINS LA FILE D'ATTENTE";
     } else {
       headingEl.textContent = "REJOINS LA SESSION";
       subheadingEl.hidden = true;
-      submitBtn.textContent = "CONFIRMER MA PARTICIPATION";
+      submitBtn.textContent = "REJOINS LA SANCTION";
     }
   }
 
@@ -53,28 +47,6 @@
     el.hidden = true;
   }
 
-  function goToStep2() {
-    var inputs = step1.querySelectorAll("input[required]");
-    var valid = true;
-    inputs.forEach(function (input) {
-      if (!input.reportValidity()) valid = false;
-    });
-    if (!valid) return;
-    hideError(step1Error);
-    step1.hidden = true;
-    step2.hidden = false;
-    stepIndicator.textContent = "ETAPE 2 / 2";
-  }
-
-  function goToStep1() {
-    step2.hidden = true;
-    step1.hidden = false;
-    stepIndicator.textContent = "ETAPE 1 / 2";
-  }
-
-  nextBtn.addEventListener("click", goToStep2);
-  backBtn.addEventListener("click", goToStep1);
-
   function renderResult(status, whatsappLink) {
     formSection.hidden = true;
     resultSection.hidden = false;
@@ -100,13 +72,6 @@
   registrationForm.addEventListener("submit", function (event) {
     event.preventDefault();
     hideError(formError);
-
-    var step2Inputs = step2.querySelectorAll("input[required]");
-    var valid = true;
-    step2Inputs.forEach(function (input) {
-      if (!input.reportValidity()) valid = false;
-    });
-    if (!valid) return;
 
     var formData = new FormData(registrationForm);
     var payload = {
