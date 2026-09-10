@@ -9,13 +9,8 @@
   var resultSection = document.getElementById("result");
   var registrationForm = document.getElementById("registration-form");
   var formError = document.getElementById("form-error");
-  var interesseForm = document.getElementById("interesse-form");
-  var interesseError = document.getElementById("interesse-error");
-
-  var isFull = false;
 
   function setHeadingState(full) {
-    isFull = full;
     if (full) {
       headingEl.textContent = "SESSION COMPLETE";
       subheadingEl.textContent = "Les places sont prises, mais tu peux rejoindre la liste d'attente.";
@@ -72,16 +67,9 @@
       return;
     }
 
-    if (status === "WAITLIST") {
-      resultSection.innerHTML =
-        '<h2 class="result-title result-title--accent">TU ES SUR LISTE D\'ATTENTE.</h2>' +
-        '<p class="result-text">Les places confirmees sont prises. On te recontacte des qu\'une place se libere.</p>';
-      return;
-    }
-
     resultSection.innerHTML =
-      '<h2 class="result-title">INTERESSE, C\'EST NOTE.</h2>' +
-      '<p class="result-text">On te tient au courant des prochaines sessions du Sanction Club.</p>';
+      '<h2 class="result-title result-title--accent">TU ES SUR LISTE D\'ATTENTE.</h2>' +
+      '<p class="result-text">Les places confirmees sont prises. On te recontacte des qu\'une place se libere.</p>';
   }
 
   registrationForm.addEventListener("submit", function (event) {
@@ -92,8 +80,10 @@
     var payload = {
       type: "participant",
       prenom: formData.get("prenom"),
+      nom: formData.get("nom"),
       instagram: formData.get("instagram"),
       email: formData.get("email"),
+      telephone: formData.get("telephone"),
       participate: formData.get("participate") === "on",
     };
 
@@ -125,50 +115,6 @@
       .catch(function () {
         showError(formError, "Une erreur est survenue, reessaie.");
         submitBtn.disabled = false;
-      });
-  });
-
-  interesseForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    hideError(interesseError);
-
-    var formData = new FormData(interesseForm);
-    var payload = {
-      type: "interesse",
-      prenom: formData.get("prenom"),
-      instagram: formData.get("instagram"),
-      email: formData.get("email"),
-    };
-
-    var interesseBtn = interesseForm.querySelector("button[type=submit]");
-    interesseBtn.disabled = true;
-
-    fetch("/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then(function (res) {
-        return res.json().then(function (data) {
-          return { ok: res.ok, status: res.status, data: data };
-        });
-      })
-      .then(function (result) {
-        if (result.data.status === "DUPLICATE") {
-          showError(interesseError, result.data.message || "Tu es deja inscrit au Sanction Club.");
-          interesseBtn.disabled = false;
-          return;
-        }
-        if (!result.ok) {
-          showError(interesseError, result.data.error || "Une erreur est survenue, reessaie.");
-          interesseBtn.disabled = false;
-          return;
-        }
-        renderResult("INTERESSE");
-      })
-      .catch(function () {
-        showError(interesseError, "Une erreur est survenue, reessaie.");
-        interesseBtn.disabled = false;
       });
   });
 

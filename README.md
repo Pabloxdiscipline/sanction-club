@@ -8,7 +8,8 @@ Statique (HTML/CSS/JS, pas de build) + Vercel Serverless Functions + Vercel Post
 ```
 index.html              Landing page (hero + formulaire + etats confirmation/waitlist)
 app.js                   Logique front de la landing page
-styles.css               Design tokens et styles (partages avec admin/)
+interesse/               Page /interesse : "pas dispo cette fois", type = 'interesse'
+styles.css               Design tokens et styles (partages avec admin/ et interesse/)
 admin/                   Espace admin protege par mot de passe
 api/status.js            GET  jauge de places (public)
 api/register.js          POST inscription (participant ou interesse)
@@ -16,8 +17,13 @@ api/admin/registrations.js  GET liste + PATCH statut (protege)
 api/admin/export.js      GET  export CSV (protege)
 db/schema.sql            Schema events + registrations
 db/seed.sql              Insertion de l'evenement Sanction Club Paris #001
+db/migrations/           Migrations incrementales a appliquer sur une base deja existante
 scripts/migrate.mjs      Applique schema.sql puis seed.sql via POSTGRES_URL
 ```
+
+Champs du formulaire principal (`/`, type `participant`) : Prenom, Nom, Instagram, Email,
+Telephone, tous obligatoires. Champs de `/interesse` (type `interesse`) : Prenom, Nom, Email
+obligatoires, Instagram et Telephone optionnels.
 
 ## Design tokens
 

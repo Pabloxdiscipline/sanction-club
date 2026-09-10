@@ -13,7 +13,11 @@ CREATE TABLE IF NOT EXISTS registrations (
   id SERIAL PRIMARY KEY,
   event_id INTEGER NOT NULL REFERENCES events(id),
   prenom TEXT NOT NULL,
-  instagram TEXT NOT NULL,
+  nom TEXT NOT NULL,
+  -- Nullable : optionnels pour type = 'interesse', obligatoires en application
+  -- pour type = 'participant' (voir api/register.js).
+  instagram TEXT,
+  telephone TEXT,
   email TEXT NOT NULL,
   statut TEXT NOT NULL DEFAULT 'CONFIRME' CHECK (statut IN ('CONFIRME', 'WAITLIST', 'ANNULE', 'PRESENT')),
   type TEXT NOT NULL DEFAULT 'participant' CHECK (type IN ('participant', 'interesse')),

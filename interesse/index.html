@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reste informe, Sanction Club</title>
+  <meta name="description" content="Pas dispo pour cette session du Sanction Club ? Laisse tes coordonnees pour etre tenu au courant des prochaines editions.">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <p class="topbar-tag">PabloXDiscipline presente</p>
+  </header>
+
+  <section class="hero hero--compact">
+    <p class="hero-city">PAS DISPO CETTE FOIS ?</p>
+    <h1 class="hero-title hero-title--small">RESTE INFORME</h1>
+    <p class="hero-lead">On te previendra des prochaines editions du Sanction Club.</p>
+  </section>
+
+  <section class="form-section">
+    <form id="interesse-form" novalidate>
+      <label>Prenom
+        <input type="text" name="prenom" required autocomplete="given-name">
+      </label>
+      <label>Nom
+        <input type="text" name="nom" required autocomplete="family-name">
+      </label>
+      <label>Email
+        <input type="email" name="email" required autocomplete="email">
+      </label>
+      <label>@ Instagram <span class="optional-tag">(optionnel)</span>
+        <input type="text" name="instagram" autocomplete="off" placeholder="tonpseudo">
+      </label>
+      <label>Telephone <span class="optional-tag">(optionnel)</span>
+        <input type="tel" name="telephone" autocomplete="tel">
+      </label>
+      <button type="submit" id="submit-btn">ETRE TENU AU COURANT</button>
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+    </form>
+
+    <p class="secondary-link">
+      <a href="/">Retour a la page principale</a>
+    </p>
+  </section>
+
+  <section id="result" class="result-section" hidden></section>
+
+  <footer class="footer">
+    Sanction Club &middot; PabloXDiscipline
+  </footer>
+
+  <script src="/interesse/interesse.js"></script>
+</body>
+</html>

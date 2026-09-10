@@ -1,4 +1,4 @@
-import { withClient, normalizeEmail, normalizeInstagram } from "./_db.js";
+import { withClient, normalizeEmail, normalizeInstagram, normalizeTelephone, orNull } from "./_db.js";
 
 const EVENT_SLUG = "sanction-club-paris-001";
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -12,19 +12,29 @@ export default async function handler(req, res) {
   const body = req.body || {};
   const type = body.type === "interesse" ? "interesse" : "participant";
   const prenom = String(body.prenom || "").trim();
+  const nom = String(body.nom || "").trim();
   const email = normalizeEmail(body.email);
   const instagram = normalizeInstagram(body.instagram);
+  const telephone = normalizeTelephone(body.telephone);
   const participate = body.participate === true;
 
-  if (!prenom || !email || !instagram) {
-    return res.status(400).json({ error: "Prenom, Instagram et email sont obligatoires." });
+  if (!prenom || !nom || !email) {
+    return res.status(400).json({ error: "Prenom, nom et email sont obligatoires." });
   }
   if (!EMAIL_PATTERN.test(email)) {
     return res.status(400).json({ error: "Email invalide." });
   }
-  if (type === "participant" && !participate) {
-    return res.status(400).json({ error: "Merci de confirmer ta participation pour valider l'inscription." });
+  if (type === "participant") {
+    if (!instagram || !telephone) {
+      return res.status(400).json({ error: "Instagram et telephone sont obligatoires." });
+    }
+    if (!participate) {
+      return res.status(400).json({ error: "Merci de confirmer ta participation pour valider l'inscription." });
+    }
   }
+
+  const instagramValue = orNull(instagram);
+  const telephoneValue = orNull(telephone);
 
   try {
     const outcome = await withClient(async (client) => {
@@ -45,7 +55,7 @@ export default async function handler(req, res) {
 
         const dupResult = await client.query(
           `SELECT id FROM registrations WHERE event_id = $1 AND (email = $2 OR instagram = $3) LIMIT 1`,
-          [event.id, email, instagram]
+          [event.id, email, instagramValue]
         );
         if (dupResult.rows.length > 0) {
           await client.query("ROLLBACK");
@@ -63,9 +73,9 @@ export default async function handler(req, res) {
         }
 
         await client.query(
-          `INSERT INTO registrations (event_id, prenom, instagram, email, statut, type)
-           VALUES ($1, $2, $3, $4, $5, $6)`,
-          [event.id, prenom, instagram, email, statut, type]
+          `INSERT INTO registrations (event_id, prenom, nom, instagram, telephone, email, statut, type)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+          [event.id, prenom, nom, instagramValue, telephoneValue, email, statut, type]
         );
 
         await client.query("COMMIT");

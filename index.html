@@ -34,12 +34,19 @@
       <label>Prenom
         <input type="text" name="prenom" required autocomplete="given-name">
       </label>
+      <label>Nom
+        <input type="text" name="nom" required autocomplete="family-name">
+      </label>
       <label>@ Instagram
         <input type="text" name="instagram" required autocomplete="off" placeholder="tonpseudo">
       </label>
       <label>Email
         <input type="email" name="email" required autocomplete="email">
       </label>
+      <label>Telephone
+        <input type="tel" name="telephone" required autocomplete="tel">
+      </label>
+      <p class="field-help">Ton numero nous sert uniquement a t'ajouter au groupe WhatsApp du Sanction Club.</p>
       <label class="checkbox">
         <input type="checkbox" name="participate" required>
         Je souhaite participer a cette session du Sanction Club.
@@ -53,22 +60,9 @@
       et a te contacter a ce sujet. Aucune inscription automatique a une newsletter.
     </p>
 
-    <details class="interesse-block">
-      <summary>Pas dispo cette fois ? Rejoins la liste des interesses pour la suite.</summary>
-      <form id="interesse-form" novalidate>
-        <label>Prenom
-          <input type="text" name="prenom" required autocomplete="given-name">
-        </label>
-        <label>@ Instagram
-          <input type="text" name="instagram" required autocomplete="off" placeholder="tonpseudo">
-        </label>
-        <label>Email
-          <input type="email" name="email" required autocomplete="email">
-        </label>
-        <button type="submit">ETRE TENU AU COURANT</button>
-        <p class="form-error" id="interesse-error" role="alert" hidden></p>
-      </form>
-    </details>
+    <p class="secondary-link">
+      Pas dispo pour cette date ? <a href="/interesse">Reste informe des prochaines editions</a>.
+    </p>
   </section>
 
   <section id="result" class="result-section" hidden></section>

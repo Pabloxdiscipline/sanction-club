@@ -37,9 +37,13 @@
     }).join("");
   }
 
+  function cellOrDash(value) {
+    return value ? escapeHtml(value) : '<span class="cell-empty">-</span>';
+  }
+
   function renderRegistrations(rows) {
     if (rows.length === 0) {
-      registrationsBody.innerHTML = '<tr class="empty-row"><td colspan="5">Aucune inscription.</td></tr>';
+      registrationsBody.innerHTML = '<tr class="empty-row"><td colspan="7">Aucune inscription.</td></tr>';
       return;
     }
     registrationsBody.innerHTML = rows
@@ -47,7 +51,9 @@
         return (
           "<tr data-id=\"" + r.id + "\">" +
           "<td>" + escapeHtml(r.prenom) + "</td>" +
-          "<td>@" + escapeHtml(r.instagram) + "</td>" +
+          "<td>" + escapeHtml(r.nom) + "</td>" +
+          "<td>" + (r.instagram ? "@" + escapeHtml(r.instagram) : '<span class="cell-empty">-</span>') + "</td>" +
+          "<td>" + cellOrDash(r.telephone) + "</td>" +
           "<td>" + escapeHtml(r.email) + "</td>" +
           "<td>" + formatDate(r.created_at) + "</td>" +
           '<td><select class="statut-select" data-id="' + r.id + '">' + statutOptions(r.statut) + "</select></td>" +
@@ -65,7 +71,7 @@
 
   function renderInteresses(rows) {
     if (rows.length === 0) {
-      interessesBody.innerHTML = '<tr class="empty-row"><td colspan="4">Aucun interesse pour le moment.</td></tr>';
+      interessesBody.innerHTML = '<tr class="empty-row"><td colspan="6">Aucun interesse pour le moment.</td></tr>';
       return;
     }
     interessesBody.innerHTML = rows
@@ -73,7 +79,9 @@
         return (
           "<tr>" +
           "<td>" + escapeHtml(r.prenom) + "</td>" +
-          "<td>@" + escapeHtml(r.instagram) + "</td>" +
+          "<td>" + escapeHtml(r.nom) + "</td>" +
+          "<td>" + (r.instagram ? "@" + escapeHtml(r.instagram) : '<span class="cell-empty">-</span>') + "</td>" +
+          "<td>" + cellOrDash(r.telephone) + "</td>" +
           "<td>" + escapeHtml(r.email) + "</td>" +
           "<td>" + formatDate(r.created_at) + "</td>" +
           "</tr>"

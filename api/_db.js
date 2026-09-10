@@ -30,3 +30,14 @@ export function normalizeEmail(email) {
 export function normalizeInstagram(handle) {
   return String(handle || "").trim().toLowerCase().replace(/^@+/, "");
 }
+
+export function normalizeTelephone(phone) {
+  return String(phone || "").trim();
+}
+
+// Convertit une chaine vide en null pour les colonnes optionnelles : evite
+// que deux inscriptions "interesse" sans instagram se percutent sur la
+// contrainte UNIQUE(event_id, instagram) via deux chaines vides identiques.
+export function orNull(value) {
+  return value ? value : null;
+}

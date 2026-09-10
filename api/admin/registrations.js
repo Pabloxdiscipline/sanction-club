@@ -29,11 +29,12 @@ export default async function handler(req, res) {
         );
 
         const params = [event.id, type];
-        let query = `SELECT id, prenom, instagram, email, statut, type, created_at
+        let query = `SELECT id, prenom, nom, instagram, telephone, email, statut, type, created_at
                       FROM registrations WHERE event_id = $1 AND type = $2`;
         if (q) {
           params.push(`%${q}%`);
-          query += ` AND (LOWER(prenom) LIKE $3 OR LOWER(instagram) LIKE $3 OR LOWER(email) LIKE $3)`;
+          query += ` AND (LOWER(prenom) LIKE $3 OR LOWER(nom) LIKE $3 OR LOWER(instagram) LIKE $3
+                           OR LOWER(email) LIKE $3 OR LOWER(telephone) LIKE $3)`;
         }
         query += " ORDER BY created_at DESC";
 

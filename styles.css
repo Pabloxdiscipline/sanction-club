@@ -132,6 +132,28 @@ img {
   text-transform: uppercase;
 }
 
+.hero--compact {
+  padding: 48px 24px;
+}
+
+.hero--compact .hero-city {
+  margin: 0;
+}
+
+.hero-title--small {
+  font-size: clamp(38px, 11vw, 56px);
+  margin-top: 10px;
+}
+
+.hero-lead {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--gris);
+  margin: 14px auto 0;
+  max-width: 320px;
+}
+
 .hero-format {
   font-family: var(--font-body);
   font-weight: 500;
@@ -242,7 +264,8 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="password"],
-input[type="search"] {
+input[type="search"],
+input[type="tel"] {
   background: var(--anthracite);
   border: 1px solid var(--border-strong);
   border-radius: 4px;
@@ -257,14 +280,16 @@ input[type="search"] {
 input[type="text"]::placeholder,
 input[type="email"]::placeholder,
 input[type="password"]::placeholder,
-input[type="search"]::placeholder {
+input[type="search"]::placeholder,
+input[type="tel"]::placeholder {
   color: var(--chrome);
 }
 
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
-input[type="search"]:focus {
+input[type="search"]:focus,
+input[type="tel"]:focus {
   outline: none;
   border-color: var(--rouge);
 }
@@ -322,35 +347,37 @@ button[type="submit"]:disabled {
   color: var(--chrome);
 }
 
-.interesse-block {
+.field-help {
+  margin: -8px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--chrome);
+}
+
+.optional-tag {
+  text-transform: none;
+  font-weight: 400;
+  letter-spacing: normal;
+  color: var(--chrome);
+}
+
+.secondary-link {
   margin-top: 32px;
-  border-top: 1px solid var(--border);
   padding-top: 20px;
-}
-
-.interesse-block summary {
-  cursor: pointer;
+  border-top: 1px solid var(--border);
   font-size: 13px;
-  font-weight: 600;
   color: var(--gris);
-  list-style: none;
+  text-align: center;
 }
 
-.interesse-block summary::-webkit-details-marker {
-  display: none;
-}
-
-.interesse-block summary::before {
-  content: "+ ";
+.secondary-link a {
   color: var(--rouge);
+  font-weight: 600;
+  text-decoration: none;
 }
 
-.interesse-block[open] summary::before {
-  content: "\2212 ";
-}
-
-.interesse-block form {
-  margin-top: 16px;
+.secondary-link a:hover {
+  text-decoration: underline;
 }
 
 /* ---------- Result panels ---------- */
