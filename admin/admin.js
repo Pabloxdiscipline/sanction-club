@@ -71,7 +71,7 @@
 
   function renderInteresses(rows) {
     if (rows.length === 0) {
-      interessesBody.innerHTML = '<tr class="empty-row"><td colspan="6">Aucun interesse pour le moment.</td></tr>';
+      interessesBody.innerHTML = '<tr class="empty-row"><td colspan="6">Aucun intéressé pour le moment.</td></tr>';
       return;
     }
     interessesBody.innerHTML = rows

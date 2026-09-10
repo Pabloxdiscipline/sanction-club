@@ -13,11 +13,11 @@ function csvEscape(value) {
 
 export default async function handler(req, res) {
   if (!isAdminAuthorized(req)) {
-    return res.status(401).json({ error: "Non autorise." });
+    return res.status(401).json({ error: "Non autorisé." });
   }
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
-    return res.status(405).json({ error: "Methode non autorisee." });
+    return res.status(405).json({ error: "Méthode non autorisée." });
   }
 
   try {
@@ -33,9 +33,9 @@ export default async function handler(req, res) {
       return result.rows;
     });
 
-    if (!rows) return res.status(404).json({ error: "Evenement introuvable." });
+    if (!rows) return res.status(404).json({ error: "Événement introuvable." });
 
-    const header = ["Prenom", "Nom", "Instagram", "Telephone", "Email", "Consentement image", "Statut", "Type", "Date inscription"];
+    const header = ["Prénom", "Nom", "Instagram", "Téléphone", "Email", "Consentement image", "Statut", "Type", "Date inscription"];
     const lines = [header.join(",")];
     for (const row of rows) {
       lines.push(

@@ -6,7 +6,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Methode non autorisee." });
+    return res.status(405).json({ error: "Méthode non autorisée." });
   }
 
   const body = req.body || {};
@@ -20,14 +20,14 @@ export default async function handler(req, res) {
   const consentementImage = body.consentementImage === true;
 
   if (!prenom || !nom || !email) {
-    return res.status(400).json({ error: "Prenom, nom et email sont obligatoires." });
+    return res.status(400).json({ error: "Prénom, nom et email sont obligatoires." });
   }
   if (!EMAIL_PATTERN.test(email)) {
     return res.status(400).json({ error: "Email invalide." });
   }
   if (type === "participant") {
     if (!instagram || !telephone) {
-      return res.status(400).json({ error: "Instagram et telephone sont obligatoires." });
+      return res.status(400).json({ error: "Instagram et téléphone sont obligatoires." });
     }
     if (!participate) {
       return res.status(400).json({ error: "Merci de confirmer ta participation pour valider l'inscription." });
@@ -88,10 +88,10 @@ export default async function handler(req, res) {
     });
 
     if (outcome.code === "NOT_FOUND") {
-      return res.status(404).json({ error: "Evenement introuvable." });
+      return res.status(404).json({ error: "Événement introuvable." });
     }
     if (outcome.code === "DUPLICATE") {
-      return res.status(409).json({ status: "DUPLICATE", message: "Tu es deja inscrit au Sanction Club." });
+      return res.status(409).json({ status: "DUPLICATE", message: "Tu es déjà inscrit au Sanction Club." });
     }
     if (outcome.code === "CONFIRME") {
       return res.status(201).json({ status: "CONFIRME", whatsappLink: outcome.whatsappLink || null });
@@ -99,7 +99,7 @@ export default async function handler(req, res) {
     return res.status(201).json({ status: outcome.code });
   } catch (err) {
     if (err && err.code === "23505") {
-      return res.status(409).json({ status: "DUPLICATE", message: "Tu es deja inscrit au Sanction Club." });
+      return res.status(409).json({ status: "DUPLICATE", message: "Tu es déjà inscrit au Sanction Club." });
     }
     console.error(err);
     return res.status(500).json({ error: "Erreur serveur." });

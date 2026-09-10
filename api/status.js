@@ -5,7 +5,7 @@ const EVENT_SLUG = "sanction-club-paris-001";
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
-    return res.status(405).json({ error: "Methode non autorisee." });
+    return res.status(405).json({ error: "Méthode non autorisée." });
   }
 
   try {
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     });
 
     if (!event) {
-      return res.status(404).json({ error: "Evenement introuvable." });
+      return res.status(404).json({ error: "Événement introuvable." });
     }
 
     const confirmed = Number(event.confirmed_count);

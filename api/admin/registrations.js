@@ -6,7 +6,7 @@ const ALLOWED_STATUTS = ["CONFIRME", "WAITLIST", "ANNULE", "PRESENT"];
 
 export default async function handler(req, res) {
   if (!isAdminAuthorized(req)) {
-    return res.status(401).json({ error: "Non autorise." });
+    return res.status(401).json({ error: "Non autorisé." });
   }
 
   if (req.method === "GET") {
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
         return { stats: statsResult.rows[0], registrations: rowsResult.rows };
       });
 
-      if (!data) return res.status(404).json({ error: "Evenement introuvable." });
+      if (!data) return res.status(404).json({ error: "Événement introuvable." });
       return res.status(200).json(data);
     } catch (err) {
       console.error(err);
@@ -53,7 +53,7 @@ export default async function handler(req, res) {
   if (req.method === "PATCH") {
     const { id, statut } = req.body || {};
     if (!id || !ALLOWED_STATUTS.includes(statut)) {
-      return res.status(400).json({ error: "Requete invalide." });
+      return res.status(400).json({ error: "Requête invalide." });
     }
     try {
       const result = await withClient((client) =>
@@ -70,5 +70,5 @@ export default async function handler(req, res) {
   }
 
   res.setHeader("Allow", "GET, PATCH");
-  return res.status(405).json({ error: "Methode non autorisee." });
+  return res.status(405).json({ error: "Méthode non autorisée." });
 }

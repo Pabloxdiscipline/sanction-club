@@ -44,24 +44,24 @@
       })
       .then(function (result) {
         if (result.data.status === "DUPLICATE") {
-          showError(result.data.message || "Tu es deja inscrit au Sanction Club.");
+          showError(result.data.message || "Tu es déjà inscrit au Sanction Club.");
           submitBtn.disabled = false;
           return;
         }
         if (!result.ok) {
-          showError(result.data.error || "Une erreur est survenue, reessaie.");
+          showError(result.data.error || "Une erreur est survenue, réessaie.");
           submitBtn.disabled = false;
           return;
         }
         formSection.hidden = true;
         resultSection.hidden = false;
         resultSection.innerHTML =
-          '<h2 class="result-title">C\'EST NOTE.</h2>' +
-          '<p class="result-text">On te previendra des prochaines editions du Sanction Club.</p>' +
-          '<p class="secondary-link"><a href="/">Retour a la page principale</a></p>';
+          '<h2 class="result-title">C\'EST NOTÉ.</h2>' +
+          '<p class="result-text">On te préviendra des prochaines éditions du Sanction Club.</p>' +
+          '<p class="secondary-link"><a href="/">Retour à la page principale</a></p>';
       })
       .catch(function () {
-        showError("Une erreur est survenue, reessaie.");
+        showError("Une erreur est survenue, réessaie.");
         submitBtn.disabled = false;
       });
   });

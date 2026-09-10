@@ -11,7 +11,7 @@
 
   function setHeadingState(full) {
     if (full) {
-      headingEl.textContent = "SESSION COMPLETE";
+      headingEl.textContent = "SESSION COMPLÈTE";
       subheadingEl.textContent = "Les places sont prises, mais tu peux rejoindre la liste d'attente.";
       subheadingEl.hidden = false;
       submitBtn.textContent = "REJOINS LA FILE D'ATTENTE";
@@ -23,8 +23,8 @@
   }
 
   function loadStatus() {
-    // La jauge n'est plus affichee publiquement : cet appel sert uniquement
-    // a determiner si le formulaire doit basculer en mode liste d'attente.
+    // La jauge n'est plus affichée publiquement : cet appel sert uniquement
+    // à déterminer si le formulaire doit basculer en mode liste d'attente.
     fetch("/api/status")
       .then(function (res) {
         if (!res.ok) throw new Error("status_failed");
@@ -54,19 +54,19 @@
     if (status === "CONFIRME") {
       var whatsappBlock = whatsappLink
         ? '<a class="whatsapp-cta" href="' + whatsappLink + '" target="_blank" rel="noopener">REJOINDRE LE GROUPE WHATSAPP</a>'
-        : '<p class="result-text">Le lien du groupe WhatsApp sera communique prochainement.</p>';
+        : '<p class="result-text">Le lien du groupe WhatsApp sera communiqué prochainement.</p>';
 
       resultSection.innerHTML =
-        '<h2 class="result-title">TA PLACE EST PRE-VALIDEE.</h2>' +
-        '<p class="result-text">Derniere etape : rejoins le QG du Sanction Club pour recevoir le lieu, l\'heure et toutes les informations.</p>' +
+        '<h2 class="result-title">TA PLACE EST PRÉ-VALIDÉE.</h2>' +
+        '<p class="result-text">Dernière étape : rejoins le QG du Sanction Club pour recevoir le lieu, l\'heure et toutes les informations.</p>' +
         whatsappBlock +
-        '<p class="result-note">L\'inscription au site ne garantit pas l\'acces automatique au groupe WhatsApp, l\'approbation y est manuelle.</p>';
+        '<p class="result-note">L\'inscription au site ne garantit pas l\'accès automatique au groupe WhatsApp, l\'approbation y est manuelle.</p>';
       return;
     }
 
     resultSection.innerHTML =
       '<h2 class="result-title result-title--accent">TU ES SUR LISTE D\'ATTENTE.</h2>' +
-      '<p class="result-text">Les places confirmees sont prises. On te recontacte des qu\'une place se libere.</p>';
+      '<p class="result-text">Les places confirmées sont prises. On te recontacte dès qu\'une place se libère.</p>';
   }
 
   registrationForm.addEventListener("submit", function (event) {
@@ -82,8 +82,8 @@
       email: formData.get("email"),
       telephone: formData.get("telephone"),
       // Plus de checkboxes dans le formulaire : soumettre vaut confirmation
-      // de participation. Le consentement image reste a sa valeur par
-      // defaut (false) en base, personne ne peut plus le cocher.
+      // de participation. Le consentement image reste à sa valeur par
+      // défaut (false) en base, personne ne peut plus le cocher.
       participate: true,
       consentementImage: false,
     };
@@ -102,19 +102,19 @@
       })
       .then(function (result) {
         if (result.data.status === "DUPLICATE") {
-          showError(formError, result.data.message || "Tu es deja inscrit au Sanction Club.");
+          showError(formError, result.data.message || "Tu es déjà inscrit au Sanction Club.");
           submitBtn.disabled = false;
           return;
         }
         if (!result.ok) {
-          showError(formError, result.data.error || "Une erreur est survenue, reessaie.");
+          showError(formError, result.data.error || "Une erreur est survenue, réessaie.");
           submitBtn.disabled = false;
           return;
         }
         renderResult(result.data.status, result.data.whatsappLink);
       })
       .catch(function () {
-        showError(formError, "Une erreur est survenue, reessaie.");
+        showError(formError, "Une erreur est survenue, réessaie.");
         submitBtn.disabled = false;
       });
   });
