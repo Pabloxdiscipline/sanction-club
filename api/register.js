@@ -32,9 +32,6 @@ export default async function handler(req, res) {
     if (!participate) {
       return res.status(400).json({ error: "Merci de confirmer ta participation pour valider l'inscription." });
     }
-    if (!consentementImage) {
-      return res.status(400).json({ error: "Le consentement image est requis pour valider l'inscription." });
-    }
   }
 
   const instagramValue = orNull(instagram);
