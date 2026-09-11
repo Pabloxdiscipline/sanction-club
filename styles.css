@@ -143,6 +143,16 @@ img {
   text-transform: uppercase;
 }
 
+.hero-date {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  margin: 6px 0 0;
+  color: var(--blanc);
+  text-transform: uppercase;
+}
+
 .hero--compact {
   padding: 48px 24px;
 }
