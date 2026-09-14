@@ -47,26 +47,21 @@
     el.hidden = true;
   }
 
-  function renderResult(status, whatsappLink) {
+  function renderResult(status) {
     formSection.hidden = true;
     resultSection.hidden = false;
 
     if (status === "CONFIRME") {
-      var whatsappBlock = whatsappLink
-        ? '<a class="whatsapp-cta" href="' + whatsappLink + '" target="_blank" rel="noopener">REJOINDRE LE GROUPE WHATSAPP</a>'
-        : '<p class="result-text">Le lien du groupe WhatsApp sera communiqué prochainement.</p>';
-
       resultSection.innerHTML =
-        '<h2 class="result-title">TA PLACE EST PRÉ-VALIDÉE.</h2>' +
-        '<p class="result-text">Dernière étape : rejoins le QG du Sanction Club pour recevoir le lieu, l\'heure et toutes les informations.</p>' +
-        whatsappBlock +
-        '<p class="result-note">L\'inscription au site ne garantit pas l\'accès automatique au groupe WhatsApp, l\'approbation y est manuelle.</p>';
+        '<h2 class="result-title">TA PLACE EST CONFIRMÉE.</h2>' +
+        '<p class="result-text">Je vais t\'ajouter moi-même au groupe WhatsApp du Sanction Club dans les prochaines heures.</p>' +
+        '<p class="result-text">Garde un œil sur tes notifications.</p>';
       return;
     }
 
     resultSection.innerHTML =
       '<h2 class="result-title result-title--accent">TU ES SUR LISTE D\'ATTENTE.</h2>' +
-      '<p class="result-text">Les places confirmées sont prises. On te recontacte dès qu\'une place se libère.</p>';
+      '<p class="result-text">On te recontacte si une place se libère.</p>';
   }
 
   registrationForm.addEventListener("submit", function (event) {
@@ -111,7 +106,7 @@
           submitBtn.disabled = false;
           return;
         }
-        renderResult(result.data.status, result.data.whatsappLink);
+        renderResult(result.data.status);
       })
       .catch(function () {
         showError(formError, "Une erreur est survenue, réessaie.");

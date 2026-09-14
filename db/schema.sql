@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS registrations (
   email TEXT NOT NULL,
   -- Optionnel : la participation reste valide meme case decochee, false par defaut.
   consentement_image BOOLEAN NOT NULL DEFAULT false,
+  -- Coche manuellement par l'admin une fois la personne ajoutee au groupe WhatsApp.
+  ajoute_whatsapp BOOLEAN NOT NULL DEFAULT false,
   statut TEXT NOT NULL DEFAULT 'CONFIRME' CHECK (statut IN ('CONFIRME', 'WAITLIST', 'ANNULE', 'PRESENT')),
   type TEXT NOT NULL DEFAULT 'participant' CHECK (type IN ('participant', 'interesse')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),

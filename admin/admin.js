@@ -11,6 +11,7 @@
   var statTotal = document.getElementById("stat-total");
   var statConfirmed = document.getElementById("stat-confirmed");
   var statWaitlist = document.getElementById("stat-waitlist");
+  var statWhatsapp = document.getElementById("stat-whatsapp");
   var searchInput = document.getElementById("search-input");
   var registrationsBody = document.getElementById("registrations-body");
   var interessesBody = document.getElementById("interesses-body");
@@ -41,9 +42,34 @@
     return value ? escapeHtml(value) : '<span class="cell-empty">-</span>';
   }
 
+  function waLink(phone) {
+    var digits = String(phone || "").replace(/\D/g, "");
+    return digits ? "https://wa.me/" + digits : null;
+  }
+
+  function telephoneCell(r) {
+    var link = r.statut === "CONFIRME" ? waLink(r.telephone) : null;
+    if (link) {
+      return '<a class="wa-link" href="' + link + '" target="_blank" rel="noopener">' + escapeHtml(r.telephone) + "</a>";
+    }
+    return cellOrDash(r.telephone);
+  }
+
+  function whatsappCell(r) {
+    if (r.statut !== "CONFIRME") {
+      return '<span class="cell-empty">-</span>';
+    }
+    return (
+      '<label class="whatsapp-check">' +
+      '<input type="checkbox" class="whatsapp-checkbox" data-id="' + r.id + '"' +
+      (r.ajoute_whatsapp ? " checked" : "") +
+      "></label>"
+    );
+  }
+
   function renderRegistrations(rows) {
     if (rows.length === 0) {
-      registrationsBody.innerHTML = '<tr class="empty-row"><td colspan="7">Aucune inscription.</td></tr>';
+      registrationsBody.innerHTML = '<tr class="empty-row"><td colspan="8">Aucune inscription.</td></tr>';
       return;
     }
     registrationsBody.innerHTML = rows
@@ -53,10 +79,11 @@
           "<td>" + escapeHtml(r.prenom) + "</td>" +
           "<td>" + escapeHtml(r.nom) + "</td>" +
           "<td>" + (r.instagram ? "@" + escapeHtml(r.instagram) : '<span class="cell-empty">-</span>') + "</td>" +
-          "<td>" + cellOrDash(r.telephone) + "</td>" +
+          "<td>" + telephoneCell(r) + "</td>" +
           "<td>" + escapeHtml(r.email) + "</td>" +
           "<td>" + formatDate(r.created_at) + "</td>" +
           '<td><select class="statut-select" data-id="' + r.id + '">' + statutOptions(r.statut) + "</select></td>" +
+          "<td>" + whatsappCell(r) + "</td>" +
           "</tr>"
         );
       })
@@ -64,7 +91,13 @@
 
     registrationsBody.querySelectorAll(".statut-select").forEach(function (select) {
       select.addEventListener("change", function () {
-        updateStatut(select.getAttribute("data-id"), select.value);
+        updateRegistration(select.getAttribute("data-id"), { statut: select.value });
+      });
+    });
+
+    registrationsBody.querySelectorAll(".whatsapp-checkbox").forEach(function (checkbox) {
+      checkbox.addEventListener("change", function () {
+        updateRegistration(checkbox.getAttribute("data-id"), { ajoute_whatsapp: checkbox.checked });
       });
     });
   }
@@ -108,6 +141,7 @@
         statTotal.textContent = data.stats.total;
         statConfirmed.textContent = data.stats.confirmed;
         statWaitlist.textContent = data.stats.waitlist;
+        statWhatsapp.textContent = data.stats.added_whatsapp + " / " + data.stats.confirmed;
         renderRegistrations(data.registrations);
       });
   }
@@ -123,14 +157,15 @@
       });
   }
 
-  function updateStatut(id, statut) {
+  function updateRegistration(id, patch) {
+    var body = Object.assign({ id: Number(id) }, patch);
     fetch("/api/admin/registrations", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "X-Admin-Password": getPassword(),
       },
-      body: JSON.stringify({ id: Number(id), statut: statut }),
+      body: JSON.stringify(body),
     }).then(function (res) {
       if (res.ok) {
         loadParticipants();

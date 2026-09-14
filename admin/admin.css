@@ -67,7 +67,7 @@
 
 .stats-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-bottom: 24px;
 }
@@ -121,11 +121,33 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
-  min-width: 820px;
+  min-width: 940px;
 }
 
 .cell-empty {
   color: var(--chrome);
+}
+
+.wa-link {
+  color: var(--blanc);
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+}
+
+.wa-link:hover {
+  color: var(--rouge);
+}
+
+.whatsapp-check {
+  display: flex;
+  justify-content: center;
+}
+
+.whatsapp-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--rouge);
+  cursor: pointer;
 }
 
 .admin-table th,

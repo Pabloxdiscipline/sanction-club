@@ -23,13 +23,14 @@ export default async function handler(req, res) {
           `SELECT
              COUNT(*)::int AS total,
              COUNT(*) FILTER (WHERE statut = 'CONFIRME')::int AS confirmed,
-             COUNT(*) FILTER (WHERE statut = 'WAITLIST')::int AS waitlist
+             COUNT(*) FILTER (WHERE statut = 'WAITLIST')::int AS waitlist,
+             COUNT(*) FILTER (WHERE statut = 'CONFIRME' AND ajoute_whatsapp = true)::int AS added_whatsapp
            FROM registrations WHERE event_id = $1 AND type = 'participant'`,
           [event.id]
         );
 
         const params = [event.id, type];
-        let query = `SELECT id, prenom, nom, instagram, telephone, email, statut, type, created_at
+        let query = `SELECT id, prenom, nom, instagram, telephone, email, statut, type, ajoute_whatsapp, created_at
                       FROM registrations WHERE event_id = $1 AND type = $2`;
         if (q) {
           params.push(`%${q}%`);
@@ -51,13 +52,34 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "PATCH") {
-    const { id, statut } = req.body || {};
-    if (!id || !ALLOWED_STATUTS.includes(statut)) {
+    const { id, statut, ajoute_whatsapp } = req.body || {};
+    const statutProvided = statut !== undefined;
+    const ajouteWhatsappProvided = ajoute_whatsapp !== undefined;
+
+    if (
+      !id ||
+      (!statutProvided && !ajouteWhatsappProvided) ||
+      (statutProvided && !ALLOWED_STATUTS.includes(statut)) ||
+      (ajouteWhatsappProvided && typeof ajoute_whatsapp !== "boolean")
+    ) {
       return res.status(400).json({ error: "Requête invalide." });
     }
+
+    const sets = [];
+    const params = [];
+    if (statutProvided) {
+      params.push(statut);
+      sets.push(`statut = $${params.length}`);
+    }
+    if (ajouteWhatsappProvided) {
+      params.push(ajoute_whatsapp);
+      sets.push(`ajoute_whatsapp = $${params.length}`);
+    }
+    params.push(id);
+
     try {
       const result = await withClient((client) =>
-        client.query("UPDATE registrations SET statut = $1 WHERE id = $2 RETURNING id", [statut, id])
+        client.query(`UPDATE registrations SET ${sets.join(", ")} WHERE id = $${params.length} RETURNING id`, params)
       );
       if (result.rows.length === 0) {
         return res.status(404).json({ error: "Inscription introuvable." });

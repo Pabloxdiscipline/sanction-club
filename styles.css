@@ -424,25 +424,6 @@ button[type="submit"]:disabled {
   line-height: 1.6;
 }
 
-.whatsapp-cta {
-  display: inline-block;
-  padding: 16px 32px;
-  background: var(--blanc);
-  color: var(--noir);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 4px;
-}
-
-.result-note {
-  margin: 24px 0 0;
-  font-size: 12px;
-  color: var(--chrome);
-}
-
 /* ---------- Footer ---------- */
 
 .footer {
